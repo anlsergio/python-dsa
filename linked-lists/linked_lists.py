@@ -148,37 +148,39 @@ class LinkedList:
         return True
 
     def find_middle_node(self):
-        if not self.head:
-            return None
-        slow_cursor = self.head
-        fast_cursor = self.head
-        candidate = self.head
+        # for each iteration of the loop
+        # the fast cursor should move 2 nodes
+        # at a time, but it's necessary to check
+        # if the next immediate node is a dead end first.
+        # which is used to know if the list is even or odd.
 
-        while fast_cursor:
-            # for each iteration of the loop
-            # the fast cursor should move 2 nodes
-            # at a time, but it's necessary to check
-            # if the next immediate node is a dead end first.
-            # which is used to know if the list is even or odd.
+        # if the immediate node next to fast cursor is None
+        # that means it's an ODD list and slow should be returned immediately.
 
-            # if the immediate node next to fast cursor is None
-            # that means it's an ODD list and candidate should be returned.
-            if not fast_cursor.next:
-                break
-            fast_cursor = fast_cursor.next
+        # 1. Initialize two pointers: 'slow' and 'fast',
+        # both starting from the head.
+        slow = self.head
+        fast = self.head
 
-            # if fast cursor only hits a dead end in its
-            # 2nd hop, it's an even list, so the middle node
-            # should the first node of the 2nd half of the list,
-            # which in this case, is the node next to the slow cursor.
-            if not fast_cursor.next:
-                candidate = slow_cursor.next
-                break
-            fast_cursor = fast_cursor.next
-            slow_cursor = slow_cursor.next
-            candidate = slow_cursor
+        # 2. Iterate as long as 'fast' pointer and its next
+        # node are not None.
+        # This ensures we don't get an error trying to access
+        # a non-existent node.
+        while fast is not None and fast.next is not None:
+            # 2.1. Move 'slow' one step ahead.
+            # This covers half the distance that 'fast' covers.
+            slow = slow.next
 
-        return candidate
+            # 2.2. Move 'fast' two steps ahead.
+            # Thus, when 'fast' reaches the end, 'slow'
+            # will be at the middle.
+            fast = fast.next.next
+
+        # 3. By now, 'fast' has reached or surpassed the end,
+        # and 'slow' is positioned at the middle node.
+        # Return the 'slow' pointer, which points to
+        # the middle node.
+        return slow
 
 
 linked_list = LinkedList(10)
