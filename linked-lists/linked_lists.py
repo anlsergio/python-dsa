@@ -147,6 +147,39 @@ class LinkedList:
 
         return True
 
+    def find_middle_node(self):
+        if not self.head:
+            return None
+        slow_cursor = self.head
+        fast_cursor = self.head
+        candidate = self.head
+
+        while fast_cursor:
+            # for each iteration of the loop
+            # the fast cursor should move 2 nodes
+            # at a time, but it's necessary to check
+            # if the next immediate node is a dead end first.
+            # which is used to know if the list is even or odd.
+
+            # if the immediate node next to fast cursor is None
+            # that means it's an ODD list and candidate should be returned.
+            if not fast_cursor.next:
+                break
+            fast_cursor = fast_cursor.next
+
+            # if fast cursor only hits a dead end in its
+            # 2nd hop, it's an even list, so the middle node
+            # should the first node of the 2nd half of the list,
+            # which in this case, is the node next to the slow cursor.
+            if not fast_cursor.next:
+                candidate = slow_cursor.next
+                break
+            fast_cursor = fast_cursor.next
+            slow_cursor = slow_cursor.next
+            candidate = slow_cursor
+
+        return candidate
+
 
 linked_list = LinkedList(10)
 print(linked_list.print())
@@ -200,3 +233,12 @@ print("\nreverse:")
 print(linked_list.reverse())
 print("print all:")
 print(linked_list.print())
+
+middle_linked_list = LinkedList(1)
+middle_linked_list.append(2)
+middle_linked_list.append(3)
+middle_linked_list.append(4)
+middle_linked_list.append(5)
+middle_linked_list.append(6)
+
+print( middle_linked_list.find_middle_node().value )
