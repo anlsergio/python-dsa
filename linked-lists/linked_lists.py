@@ -182,6 +182,26 @@ class LinkedList:
         # the middle node.
         return slow
 
+    def has_loop(self):
+        # This algorithm uses Floyd's cycle-finding algorithm
+        # (also known as the "tortoise and the hare" algorithm) to detect the loop by using two pointers:
+        # a slow pointer and a fast pointer.
+        # The slow pointer moves one step at a time, while the fast pointer moves two steps at a time.
+        # If there is a loop in the linked list, the two pointers will eventually meet at some point.
+        # If there is no loop, the fast pointer will reach the end of the list.
+
+        slow = self.head
+        fast = self.head
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
+
+        return False
+
 
 linked_list = LinkedList(10)
 print(linked_list.print())
@@ -231,10 +251,14 @@ print(linked_list.remove(1))
 print("print all:")
 print(linked_list.print())
 
+# Reverse Algorithm
+
 print("\nreverse:")
 print(linked_list.reverse())
 print("print all:")
 print(linked_list.print())
+
+# Find Middle Algorithm
 
 middle_linked_list = LinkedList(1)
 middle_linked_list.append(2)
@@ -244,3 +268,20 @@ middle_linked_list.append(5)
 middle_linked_list.append(6)
 
 print( middle_linked_list.find_middle_node().value )
+
+# Has Loop Algorithm
+
+print("\nHas loop true:")
+loop_detection_list1 = LinkedList(1)
+loop_detection_list1.append(2)
+loop_detection_list1.append(3)
+loop_detection_list1.append(4)
+loop_detection_list1.tail.next = loop_detection_list1.head
+print(loop_detection_list1.has_loop()) # Returns True
+
+print("\nHas loop false:")
+loop_detection_list2 = LinkedList(1)
+loop_detection_list2.append(2)
+loop_detection_list2.append(3)
+loop_detection_list2.append(4)
+print(loop_detection_list2.has_loop()) # Returns False
