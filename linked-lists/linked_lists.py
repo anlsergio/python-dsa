@@ -202,6 +202,33 @@ class LinkedList:
 
         return False
 
+def find_kth_from_end(ll: LinkedList, k: int):
+    # This function uses the two-pointer technique to efficiently find the kth node from the end of a linked list.
+    # By first positioning the fast pointer k nodes ahead of the slow pointer and then moving both pointers
+    # at the same speed, we ensure that when the fast pointer reaches the end, the slow pointer is at the
+    # desired kth node from the end
+    if not k:
+        return None
+
+    slow = ll.head
+    fast = ll.head
+
+    for _ in range(k):
+        # If the fast pointer becomes None before moving k nodes
+        # the list is shorter than k nodes and the kth node is out of bounds.
+        if not fast:
+            return None
+        fast = fast.next
+
+    while fast:
+        # by keeping the gap of "k" nodes between the two cursors
+        # whenever fast hits the end of the list the slow cursor
+        # will be pointing at ("the end of the list" - k)
+        slow = slow.next
+        fast = fast.next
+
+    return slow
+
 
 linked_list = LinkedList(10)
 print(linked_list.print())
@@ -285,3 +312,17 @@ loop_detection_list2.append(2)
 loop_detection_list2.append(3)
 loop_detection_list2.append(4)
 print(loop_detection_list2.has_loop()) # Returns False
+
+# Find Kth node from end Algorithm
+
+print("\nFind kth node from end:")
+find_kth_node_list = LinkedList(1)
+find_kth_node_list.append(2)
+find_kth_node_list.append(3)
+find_kth_node_list.append(4)
+find_kth_node_list.append(5)
+
+k = 2
+result = find_kth_from_end(find_kth_node_list, k)
+
+print(result.value)  # Output: 4
