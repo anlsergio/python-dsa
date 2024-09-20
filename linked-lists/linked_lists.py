@@ -243,6 +243,27 @@ class LinkedList:
         # Points the original Linked List head to the smaller nodes' list head.
         self.head = dummy_smaller_node.next
 
+    def remove_duplicates(self):
+        previous = None
+        current = self.head
+        # We're using a set (seen_values) because checking membership in a set is typically O(1),
+        # making it efficient for this operation. As we traverse the list,
+        # we'll add each encountered node's value to this set.
+        seen_values = set()
+
+        while current:
+            next_node = current.next
+            if current.value in seen_values:
+                previous.next = next_node
+                current.next = None
+                self.length -= 1
+            else:
+                previous = current
+            seen_values.add(current.value)
+            current = next_node
+
+
+
 def find_kth_from_end(ll: LinkedList, k: int):
     # This function uses the two-pointer technique to efficiently find the kth node from the end of a linked list.
     # By first positioning the fast pointer k nodes ahead of the slow pointer and then moving both pointers
@@ -539,3 +560,77 @@ def test_partition_list():
 
 # Run the test function
 test_partition_list()
+
+# Remove Duplicates Algorithm
+
+print("\nDe-dup:")
+
+def test_remove_duplicates(linked_list, expected_values):
+    print("Before: ", end="")
+    linked_list.print()
+    linked_list.remove_duplicates()
+    print("After:  ", end="")
+    linked_list.print()
+
+    # Collect values from linked list after removal
+    result_values = []
+    node = linked_list.head
+    while node:
+        result_values.append(node.value)
+        node = node.next
+
+    # Determine if the test passes
+    if result_values == expected_values:
+        print("Test PASS\n")
+    else:
+        print("Test FAIL\n")
+
+# Test 1: List with no duplicates
+ll = LinkedList(1)
+ll.append(2)
+ll.append(3)
+test_remove_duplicates(ll, [1, 2, 3])
+
+# Test 2: List with some duplicates
+ll = LinkedList(1)
+ll.append(2)
+ll.append(1)
+ll.append(3)
+ll.append(2)
+test_remove_duplicates(ll, [1, 2, 3])
+
+# Test 3: List with all duplicates
+ll = LinkedList(1)
+ll.append(1)
+ll.append(1)
+test_remove_duplicates(ll, [1])
+
+# Test 4: List with consecutive duplicates
+ll = LinkedList(1)
+ll.append(1)
+ll.append(2)
+ll.append(2)
+ll.append(3)
+test_remove_duplicates(ll, [1, 2, 3])
+
+# Test 5: List with non-consecutive duplicates
+ll = LinkedList(1)
+ll.append(2)
+ll.append(1)
+ll.append(3)
+ll.append(2)
+ll.append(4)
+test_remove_duplicates(ll, [1, 2, 3, 4])
+
+# Test 6: List with duplicates at the end
+ll = LinkedList(1)
+ll.append(2)
+ll.append(3)
+ll.append(3)
+test_remove_duplicates(ll, [1, 2, 3])
+
+# Test 7: Empty list
+ll = LinkedList(None)
+ll.head = None  # Directly setting the head to None
+ll.length = 0   # Adjusting the length to reflect an empty list
+test_remove_duplicates(ll, [])
