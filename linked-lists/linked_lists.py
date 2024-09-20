@@ -202,81 +202,46 @@ class LinkedList:
 
         return False
 
-    #   +===================================================+
-    #   |               WRITE YOUR CODE HERE                |
-    #   | Description:                                      |
-    #   | - This method partitions a linked list around a   |
-    #   |   value `x`.                                      |
-    #   | - It rearranges the nodes so that all nodes less  |
-    #   |   than `x` come before all nodes greater or equal |
-    #   |   to `x`.                                         |
-    #   |                                                   |
-    #   | Tips:                                             |
-    #   | - We use two dummy nodes, `dummy1` and `dummy2`,  |
-    #   |   to build two separate lists: one for elements   |
-    #   |   smaller than `x` and one for elements greater   |
-    #   |   or equal to `x`.                                |
-    #   | - `prev1` and `prev2` help us keep track of the   |
-    #   |   last nodes in these lists.                      |
-    #   | - Finally, we merge these two lists by setting    |
-    #   |   `prev1.next = dummy2.next`.                     |
-    #   | - The head of the resulting list becomes          |
-    #   |   `dummy1.next`.                                  |
-    #   +===================================================+
     def partition_list(self, x):
         if not self.head:
-            return False
+            return None
 
-        # If it's a single element list return immediately because there's nothing to rearrange.
-        if not self.head.next:
-            return True
-
-        temp = self.head
-        # keeps track of the last greater and smaller nodes
-        # added to their respective new lists.
-        last_greater_node = None
-        last_smaller_node = None
-
+        current = self.head
         # the dummy nodes initialize their respective new linked lists
         # by holding the temporary head pointers to their respective lists.
         dummy_greater_node = Node(0)
         dummy_smaller_node = Node(0)
 
-        while temp:
-            if temp.value < x:
-                # if last_smaller_node is not null, then there's a previous node
-                # to link to the current one.
-                if last_smaller_node:
-                    last_smaller_node.next = temp
-                # If it's null, initialize the smaller linked list
-                # by setting the dummy node's next pointer which will work as the head of the new list.
-                else:
-                    dummy_smaller_node.next = temp
-                # update the last smaller node.
-                last_smaller_node = temp
+        # keeps track of the last greater and smaller nodes
+        # added to their respective new lists.
+        # They are initialized with the dummy nodes
+        # because they are the first (and last) nodes of the corresponding
+        # temporary lists.
+        last_greater_node = dummy_greater_node
+        last_smaller_node = dummy_smaller_node
+
+        while current:
+            if current.value < x:
+                last_smaller_node.next = current
+                last_smaller_node = current
             else:
-                if last_greater_node:
-                    last_greater_node.next = temp
-                else:
-                    dummy_greater_node.next = temp
-                last_greater_node = temp
-            # walk the original list.
-            temp = temp.next
+                last_greater_node.next = current
+                last_greater_node = current
+            # walks the original list
+            current = current.next
 
-        # merge the two lists in case the smaller list is populated.
-        # - in case there's no corresponding head of the greater list,
-        # the last smaller node will point to None, which ends the list anyway;
-        # - in case there's no smaller list, that means all nodes are equal or greater
-        # than "x", and therefore, the list is left unchanged.
-        if last_smaller_node:
-            last_smaller_node.next = dummy_greater_node.next
-            self.head = dummy_smaller_node.next
+        # Disconnects the last nodes from their respective next nodes,
+        # ensuring that both temporary lists are ended properly
+        last_greater_node.next = None
+        last_smaller_node.next = None
 
-        # set the end of the list to prevent a loop.
-        if last_greater_node:
-            last_greater_node.next = None
-        else:
-            last_smaller_node.next = None
+        # Merges both temporary lists together
+        # (If the smaller list is empty, the last_smaller_node is in fact the dummy node
+        # which will now point directly to the greater nodes list, and if it's the other way around
+        # it will point to "None", given it will be the next value of dummy_greater_node).
+        last_smaller_node.next = dummy_greater_node.next
+        # Points the original Linked List head to the smaller nodes' list head.
+        self.head = dummy_smaller_node.next
 
 def find_kth_from_end(ll: LinkedList, k: int):
     # This function uses the two-pointer technique to efficiently find the kth node from the end of a linked list.
