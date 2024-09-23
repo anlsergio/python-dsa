@@ -262,6 +262,19 @@ class LinkedList:
             seen_values.add(current.value)
             current = next_node
 
+    def binary_to_decimal(self):
+        total = 0
+        current = self.head
+        position = self.length-1
+
+        while current:
+            if current.value:
+                total += pow((current.value*2), position)
+
+            position -= 1
+            current = current.next
+
+        return total
 
 
 def find_kth_from_end(ll: LinkedList, k: int):
@@ -340,14 +353,18 @@ print(linked_list.remove(1))
 print("print all:")
 print(linked_list.print())
 
+##################################
 # Reverse Algorithm
+##################################
 
 print("\nreverse:")
 print(linked_list.reverse())
 print("print all:")
 print(linked_list.print())
 
+##################################
 # Find Middle Algorithm
+##################################
 
 middle_linked_list = LinkedList(1)
 middle_linked_list.append(2)
@@ -358,7 +375,9 @@ middle_linked_list.append(6)
 
 print( middle_linked_list.find_middle_node().value )
 
+##################################
 # Has Loop Algorithm
+##################################
 
 print("\nHas loop true:")
 loop_detection_list1 = LinkedList(1)
@@ -375,7 +394,9 @@ loop_detection_list2.append(3)
 loop_detection_list2.append(4)
 print(loop_detection_list2.has_loop()) # Returns False
 
+##################################
 # Find Kth node from end Algorithm
+##################################
 
 print("\nFind kth node from end:")
 find_kth_node_list = LinkedList(1)
@@ -389,7 +410,9 @@ result = find_kth_from_end(find_kth_node_list, k)
 
 print(result.value)  # Output: 4
 
+##################################
 # Partition List Algorithm
+##################################
 
 print("\nPartition List:")
 
@@ -561,7 +584,9 @@ def test_partition_list():
 # Run the test function
 test_partition_list()
 
+##################################
 # Remove Duplicates Algorithm
+##################################
 
 print("\nDe-dup:")
 
@@ -634,3 +659,41 @@ ll = LinkedList(None)
 ll.head = None  # Directly setting the head to None
 ll.length = 0   # Adjusting the length to reflect an empty list
 test_remove_duplicates(ll, [])
+
+##################################
+# Binary to Decimal Algorithm
+##################################
+
+print("\nBinary to decimal:")
+
+# Create a linked list for binary number 101
+linked_list = LinkedList(1)
+linked_list.append(0)
+linked_list.append(1)
+
+# Convert binary to decimal
+print(linked_list.binary_to_decimal())  # Output: 5
+
+# Create a linked list for binary number 1101
+linked_list = LinkedList(1)
+linked_list.append(1)
+linked_list.append(0)
+linked_list.append(1)
+
+# Convert binary to decimal
+print(linked_list.binary_to_decimal())  # Output: 13
+
+# Create a linked list for binary number 0000
+linked_list = LinkedList(0)
+linked_list.append(0)
+linked_list.append(0)
+linked_list.append(0)
+
+# Convert binary to decimal
+print(linked_list.binary_to_decimal())  # Output: 0
+
+# Create a linked list for binary number 1
+linked_list = LinkedList(1)
+
+# Convert binary to decimal
+print(linked_list.binary_to_decimal())  # Output: 1
