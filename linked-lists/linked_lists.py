@@ -265,13 +265,12 @@ class LinkedList:
     def binary_to_decimal(self):
         total = 0
         current = self.head
-        position = self.length-1
 
+        # Use the "Double-Dabble" method to convert
+        # without having to use positions.
+        # Ref.: https://www.binaryhexconverter.com/binary-to-decimal-converter
         while current:
-            if current.value:
-                total += pow((current.value*2), position)
-
-            position -= 1
+            total = total * 2 + current.value
             current = current.next
 
         return total
