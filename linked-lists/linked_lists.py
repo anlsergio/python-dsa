@@ -282,68 +282,42 @@ class LinkedList:
         self.length = 0
 
     def reverse_between(self, start_index, end_index):
-        # +1 because it must exclude the 1st iteration from the loop count.
-        sub_list_window_size = (end_index - start_index) + 1
-
-        # bail out if the list is empty or if it has only 1 node.
-        # it also bails out if the reverse window size is below 2 nodes, since there's
-        # nothing to be reversed in that case.
-        if not self.head or not self.head.next or sub_list_window_size < 2:
+        if self.length <= 1:
             return None
 
-        current = self.head
-        # keeps track of the node that precedes the first node of the sub-list.
-        general_list_previous_node = None
-        counter = 0
+        # dummy node works as a helper node to help keep
+        # the reference to the lists head dynamically during the
+        # reversal process in case the first node is also affected by the reverse window.
+        dummy_node = Node(0)
+        dummy_node.next = self.head
+        # initializing previous as a dummy node
+        # will ensure that previous.next work for the first iteration.
+        previous = dummy_node
 
-        # traverse the list until the node matching the start index is found
-        while current:
-            if counter == start_index:
-                # The "sub_list_previous" cursor is initialized by pointing to the node that originally
-                # precedes the sub-list, if there's any. If the sub-list starts from the first node
-                # of the original list, sub_list_previous would be set to "None" at this point, meaning that
-                # there's no sub_list_previous node originally.
-                sub_list_previous = general_list_previous_node
-                sub_list_next_node = None
-                sub_list_last_node = current
+        # this loop will exit leaving the previous cursor in the
+        # node the precedes the sub-list's starting node.
+        for _ in range(start_index):
+            previous = previous.next
 
-                # reverse the sub-list starting by where the current pointer left off
-                # up to the amount of nodes next to it according to the window size.
-                # It uses a 3 cursor approach, to keep track of current node, its corresponding
-                # sub_list_previous and next nodes to interchange the "next" pointers accordingly.
-                # Important: it assumes that the index would never be out of bounds.
+        # initialize sub_list_starting_node with the sub-list's starting node
+        sub_list_starting_node = previous.next
 
-                # This inner loop updates the "current" cursor affecting the outer loop behavior,
-                # which ensures that no nodes are revisited, keeping it within the bounds of O(n) time complexity.
-                for _ in range(sub_list_window_size):
-                    # keeps track of the original next node before the pointer is lost
-                    sub_list_next_node = current.next
-                    # sets the next pointer of the current node being traversed to its sub_list_previous node
-                    # reversing the link direction to the "left".
-                    current.next = sub_list_previous
-                    # moves the "sub_list_previous" cursor to the "right".
-                    sub_list_previous = current
-                    # moves the "current" cursor to the right
-                    current = sub_list_next_node
+        sub_list_window_size = end_index - start_index
+        for _ in range(sub_list_window_size):
+            # this logic works by iteratively shifting the
+            # previous.next cursor to the right-most nodes of the sub-list,
+            # where "previous" is fixed to the node that precedes the sub-list
+            # its next pointer is moved one node at a time to the right, adjusting
+            # the references to the node next to the moved node as well.
+            node_to_move = sub_list_starting_node.next
+            sub_list_starting_node.next = node_to_move.next
+            # Reverse the link between the previous node and the node_to_move,
+            # by moving the node next to the previous node to the right of the node_to_move
+            # and finally linking the previous node to the node_to_move
+            node_to_move.next = previous.next
+            previous.next = node_to_move
 
-                # adjusts the loose end of the sub-list, linking the now last node of the sub-list
-                # to the node that was next to the original sub-list last node (before the sub-list was reversed)
-                sub_list_last_node.next = sub_list_next_node
-                # if there's no general_list_previous_node set it means that the
-                # reversing window started by the first node, so the "head" must be reset accordingly.
-                # Otherwise, keep the head pointer as is, since the first node of the original list
-                # hasn't been impacted.
-                if not general_list_previous_node:
-                    self.head = sub_list_previous
-                else:
-                    # adjust the loose end of the original sub_list_previous node
-                    # so that it points to the new next node of the reversed sub-list
-                    general_list_previous_node.next = sub_list_previous
-            else:
-                # keeps on updating the general_list_previous_node cursor until it hits the sub-list starting node.
-                general_list_previous_node = current
-                counter += 1
-                current = current.next
+        self.head = dummy_node.next
 
 
 def find_kth_from_end(ll: LinkedList, k: int):
