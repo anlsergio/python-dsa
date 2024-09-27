@@ -168,6 +168,27 @@ class DoublyLinkedList:
 
         return True
 
+    def is_palindrome(self):
+        if self.length <= 1:
+            return True
+
+        # initialize 2 cursors one starting from the head,
+        # and the other, starting from tail.
+        # for each iteration, both corresponding values should match.
+        # To optimize the time complexity, there's no reason for the script
+        # to run all the way to the end of the list, because each cursor
+        # covers its own half of the list and 2 nodes are being compared at a time.
+        forward_cursor = self.head
+        backward_cursor = self.tail
+
+        for _ in range(self.length // 2):
+            if forward_cursor.value != backward_cursor.value:
+                return False
+            forward_cursor = forward_cursor.next
+            backward_cursor = backward_cursor.prev
+
+        return True
+
 linked_list = DoublyLinkedList(1)
 print(linked_list.print())
 
@@ -246,3 +267,29 @@ my_doubly_linked_list.reverse()
 
 print('\nDLL after reverse():')
 my_doubly_linked_list.print()
+
+##################################
+# Is Palindrome Algorithm
+##################################
+
+my_dll_1 = DoublyLinkedList(1)
+my_dll_1.append(2)
+my_dll_1.append(3)
+my_dll_1.append(2)
+my_dll_1.append(1)
+
+print('my_dll_1 is_palindrome (True):')
+print( my_dll_1.is_palindrome() )
+
+my_dll_2 = DoublyLinkedList(1)
+my_dll_2.append(2)
+my_dll_2.append(3)
+
+print('\nmy_dll_2 is_palindrome (False):')
+print( my_dll_2.is_palindrome() )
+
+my_dll_2 = DoublyLinkedList(1)
+my_dll_2.append(2)
+
+print('\nmy_dll_3 is_palindrome (False):')
+print( my_dll_2.is_palindrome() )
