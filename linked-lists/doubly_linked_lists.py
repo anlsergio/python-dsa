@@ -148,6 +148,12 @@ class DoublyLinkedList:
         self.length -= 1
         return node_to_remove
 
+    def swap_first_last(self):
+        if self.length <= 1:
+            return False
+        self.head.value, self.tail.value = self.tail.value, self.head.value
+        return True
+
 linked_list = DoublyLinkedList(1)
 print(linked_list.print())
 
@@ -191,3 +197,20 @@ print("\nremove:")
 print(linked_list.remove(4))
 print("print all:")
 print(linked_list.print())
+
+##################################
+# Swap first and Last Algorithm
+##################################
+
+my_doubly_linked_list = DoublyLinkedList(1)
+my_doubly_linked_list.append(2)
+my_doubly_linked_list.append(3)
+my_doubly_linked_list.append(4)
+
+print('DLL before swap_first_last():')
+my_doubly_linked_list.print()
+
+my_doubly_linked_list.swap_first_last()
+
+print('\nDLL after swap_first_last():')
+my_doubly_linked_list.print()
