@@ -154,6 +154,20 @@ class DoublyLinkedList:
         self.head.value, self.tail.value = self.tail.value, self.head.value
         return True
 
+    def reverse(self):
+        current = self.head
+        if not current:
+            return False
+
+        while current:
+            next_node = current.next
+            current.next, current.prev = current.prev, current.next
+            current = next_node
+
+        self.head, self.tail = self.tail, self.head
+
+        return True
+
 linked_list = DoublyLinkedList(1)
 print(linked_list.print())
 
@@ -213,4 +227,22 @@ my_doubly_linked_list.print()
 my_doubly_linked_list.swap_first_last()
 
 print('\nDLL after swap_first_last():')
+my_doubly_linked_list.print()
+
+##################################
+# Reverse Algorithm
+##################################
+
+my_doubly_linked_list = DoublyLinkedList(1)
+my_doubly_linked_list.append(2)
+my_doubly_linked_list.append(3)
+my_doubly_linked_list.append(4)
+my_doubly_linked_list.append(5)
+
+print('DLL before reverse():')
+my_doubly_linked_list.print()
+
+my_doubly_linked_list.reverse()
+
+print('\nDLL after reverse():')
 my_doubly_linked_list.print()
