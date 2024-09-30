@@ -1,3 +1,6 @@
+from lutris.database.sql import cursor_execute
+
+
 class Node:
     def __init__(self, value):
         self.value = value
@@ -189,6 +192,41 @@ class DoublyLinkedList:
 
         return True
 
+    def swap_pairs(self):
+        if self.length <= 1:
+            return True
+        current = self.head
+        # Since we know for sure that the list has
+        # at least 2 valid nodes at this point,
+        # the second node should become the new head, because it's
+        # going to be swapped with the first node.
+        self.head = self.head.next
+        while current:
+            node_before = current.prev
+            node_after = current.next
+
+            # this swapping strategy takes in consideration the node next
+            # to the current one to swap. Considering it will swap in pairs,
+            # it will only swap if there's a node next to it.
+            if node_after:
+                # next_node represents the node next to the pair
+                # which is not directly involved in the current pair swap
+                # but is part of the node_after original link reference.
+                next_node = node_after.next
+                current.next = next_node
+                current.prev = node_after
+                if next_node:
+                    next_node.prev = current
+                node_after.next = current
+                node_after.prev = node_before
+
+                # if there's a node that is preceding the current pair being swapped
+                # its link to the new next node must be updated.
+                if node_before:
+                    node_before.next = node_after
+
+            current = current.next
+
 linked_list = DoublyLinkedList(1)
 print(linked_list.print())
 
@@ -293,3 +331,21 @@ my_dll_2.append(2)
 
 print('\nmy_dll_3 is_palindrome (False):')
 print( my_dll_2.is_palindrome() )
+
+##################################
+# Is Palindrome Algorithm
+##################################
+
+my_dll = DoublyLinkedList(1)
+my_dll.append(2)
+my_dll.append(3)
+my_dll.append(4)
+my_dll.append(5)
+
+print('my_dll before swap_pairs:')
+my_dll.print()
+
+my_dll.swap_pairs()
+
+print('my_dll after swap_pairs:')
+my_dll.print()
