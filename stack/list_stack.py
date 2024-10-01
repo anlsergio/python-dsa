@@ -51,3 +51,20 @@ def is_balanced_parentheses(ss):
 
 print("is balanced (False): ", is_balanced_parentheses("((())"))
 print("is balanced (True): ", is_balanced_parentheses("((()))"))
+
+##################################
+# Reverse String Algorithm
+##################################
+
+def reverse_string(ss):
+    r_stack = Stack()
+    for s in ss:
+        r_stack.push(s)
+
+    reversed_ss = ""
+    while not r_stack.is_empty():
+        reversed_ss += r_stack.pop()
+    return reversed_ss
+
+print(reverse_string("abcde"))
+print(reverse_string(""))
