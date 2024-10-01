@@ -5,10 +5,15 @@ class Stack:
     def print(self):
         for s in self.stack_list:
             print(s)
-    def push(self, value):
-        self.stack_list.append(value)
     def is_empty(self):
         return not len(self.stack_list)
+    def peek(self):
+        if self.is_empty():
+            return None
+        else:
+            return self.stack_list[-1]
+    def push(self, value):
+        self.stack_list.append(value)
     def pop(self):
         if self.is_empty():
             return None
@@ -68,3 +73,51 @@ def reverse_string(ss):
 
 print(reverse_string("abcde"))
 print(reverse_string(""))
+
+##################################
+# Sort Stack Algorithm
+##################################
+
+# Overall, this implementation has a time complexity of O(n^2),
+# where n is the number of elements in the original stack, because
+# the function performs nested loops to compare all the elements with each other.
+# However, it has the advantage of using only one additional stack, which could be
+# useful in certain situations where memory is limited.
+
+def sort_stack(input_stack: Stack):
+    sorted_stack = Stack()
+
+    while not input_stack.is_empty():
+        temp = input_stack.pop()
+        # temp is compared with the elements in the sorted stack
+        # ensuring that the smallest number is enforced to be at the bottom of the stack
+        # in descending order.
+        while not sorted_stack.is_empty() and sorted_stack.peek() > temp:
+            # all values bigger than temp are moved back to the input stack
+            # so that temp is properly ordered in the sorted stack.
+            # Considering that sorted_stack is expected to be always properly sorted
+            # in the universe of the values present in it, it's safe to assume that
+            # if the next peek is a smaller number than temp, then temp could be
+            # pushed to the stack and the descending order is kept.
+            input_stack.push(sorted_stack.pop())
+        # only when all elements currently in sorted_stack are ensured
+        # to be smaller than temp, temp is allowed to be pushed to the sorted stack.
+        sorted_stack.push(temp)
+
+    while not sorted_stack.is_empty():
+        input_stack.push(sorted_stack.pop())
+
+my_stack = Stack()
+my_stack.push(3)
+my_stack.push(1)
+my_stack.push(5)
+my_stack.push(4)
+my_stack.push(2)
+
+print("Stack before sort_stack():")
+my_stack.print()
+
+sort_stack(my_stack)
+
+print("\nStack after sort_stack:")
+my_stack.print()
