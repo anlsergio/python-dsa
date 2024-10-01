@@ -19,12 +19,16 @@ class MyQueue:
         while len(self.stack2) > 0:
             self.stack1.append(self.stack2.pop())
 
+    def dequeue(self):
+        if self.is_empty():
+            return None
+        return self.stack1.pop()
+
     def peek(self):
         return self.stack1[-1]
 
     def is_empty(self):
         return len(self.stack1) == 0
-
 
 # Create a new queue
 q = MyQueue()
@@ -37,5 +41,22 @@ q.enqueue(3)
 # Output the front of the queue
 print("Front of the queue:", q.peek())
 
+# Dequeue some values
+print("Dequeued value:", q.dequeue())
+print("Dequeued value:", q.dequeue())
+
+# Enqueue another value
+q.enqueue(4)
+
+# Output the front of the queue again
+print("Front of the queue:", q.peek())
+
+# Dequeue all remaining values
+print("Dequeued value:", q.dequeue())
+print("Dequeued value:", q.dequeue())
+
 # Check if the queue is empty
 print("Is the queue empty?", q.is_empty())
+
+# Dequeue from an empty queue and check if it returns None
+print("Dequeued value from empty queue:", q.dequeue())
