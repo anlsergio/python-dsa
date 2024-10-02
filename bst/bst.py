@@ -7,6 +7,28 @@ class Node:
 class BinarySearchTree:
     def __init__(self):
         self.root = None
+
+    # Space complexity: O(1)
+    def insert(self, value):
+        new_node = Node(value)
+        if not self.root:
+            self.root = new_node
+            return True
+        current = self.root
+        while True:
+            if new_node.value == current.value:
+                return False
+            if new_node.value < current.value:
+                if not current.left:
+                    current.left = new_node
+                    return True
+                current = current.left
+            else:
+                if not current.right:
+                    current.right = new_node
+                    return True
+                current = current.right
+
     # the recursive approach favors code readability over
     # space complexity because of all the methods being added
     # to the call stack.
@@ -37,13 +59,13 @@ class BinarySearchTree:
         return True
 
 my_tree = BinarySearchTree()
-my_tree.recursive_insert(2)
-my_tree.recursive_insert(1)
-my_tree.recursive_insert(3)
+my_tree.insert(2)
+my_tree.insert(1)
+my_tree.insert(3)
 
 print(my_tree.root.value)
 print(my_tree.root.left.value)
 print(my_tree.root.right.value)
 
-print(my_tree.recursive_insert(3))
-print(my_tree.recursive_insert(3))
+# should print False, since it's a duplicate.
+print(my_tree.insert(3))
