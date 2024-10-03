@@ -57,7 +57,16 @@ class BinarySearchTree:
                 return self.traverse_and_insert(insert_node, current_node.right)
             current_node.right = insert_node
         return True
-
+    def contains(self, value):
+        current = self.root
+        while current:
+            if current.value == value:
+                return True
+            if value < current.value:
+                current = current.left
+            else:
+                current = current.right
+        return False
 my_tree = BinarySearchTree()
 my_tree.insert(2)
 my_tree.insert(1)
@@ -69,3 +78,9 @@ print(my_tree.root.right.value)
 
 # should print False, since it's a duplicate.
 print(my_tree.insert(3))
+
+print("\nContains:")
+# Expects "True"
+print(my_tree.contains(2))
+# Expects "False"
+print(my_tree.contains(5))
