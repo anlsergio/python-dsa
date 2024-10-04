@@ -27,15 +27,27 @@ class HashTable:
             # Update the hash value by adding the product of the letter's
             # ASCII value and the prime number, and take the modulo of the
             # table size to ensure the hash fits within the array's index range.
+            # (In the expression `number % len = X` any number will result in `X <= len-1`)
             my_hash = (my_hash + letter_ascii_numerical_value * arbitrary_prime_number) % address_space
 
         # Return the final hash value, which corresponds to an index in the hash table.
         return my_hash
+
+    def set_item(self, key, value):
+        index = self.__hash(key)
+        # if the list in the index is not initialized,
+        # then it should be initialized prior to adding an item to it.
+        if self.data_map[index] is None:
+            self.data_map[index] = []
+        self.data_map[index].append([key, value])
 
     def print(self):
         for k, v in enumerate(self.data_map):
             print(k, ": ", v)
 
 my_hash_table = HashTable()
+my_hash_table.set_item('bolts', 1400)
+my_hash_table.set_item('washers', 50)
+my_hash_table.set_item('lumber', 70)
 
 my_hash_table.print()
