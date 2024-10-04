@@ -55,6 +55,15 @@ class HashTable:
                 return item[1]
         return None
 
+    def keys(self):
+        keys = []
+        for items in self.data_map:
+            if items is None:
+                continue
+            for item in items:
+                    keys.append(item[0])
+        return keys
+
 my_hash_table = HashTable()
 my_hash_table.set_item('bolts', 1400)
 my_hash_table.set_item('washers', 50)
@@ -62,4 +71,9 @@ my_hash_table.set_item('lumber', 70)
 
 my_hash_table.print()
 
+print("\n Get item:")
+
 print(my_hash_table.get_item_value("lumber"))
+
+print("\n Get Keys:")
+print(my_hash_table.keys())
