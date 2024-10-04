@@ -33,6 +33,10 @@ class HashTable:
         # Return the final hash value, which corresponds to an index in the hash table.
         return my_hash
 
+    def print(self):
+        for k, v in enumerate(self.data_map):
+            print(k, ": ", v)
+
     def set_item(self, key, value):
         index = self.__hash(key)
         # if the list in the index is not initialized,
@@ -41,9 +45,15 @@ class HashTable:
             self.data_map[index] = []
         self.data_map[index].append([key, value])
 
-    def print(self):
-        for k, v in enumerate(self.data_map):
-            print(k, ": ", v)
+    def get_item_value(self, key):
+        index = self.__hash(key)
+        items = self.data_map[index]
+        if not items:
+            return None
+        for item in items:
+            if item[0] == key:
+                return item[1]
+        return None
 
 my_hash_table = HashTable()
 my_hash_table.set_item('bolts', 1400)
@@ -51,3 +61,5 @@ my_hash_table.set_item('washers', 50)
 my_hash_table.set_item('lumber', 70)
 
 my_hash_table.print()
+
+print(my_hash_table.get_item_value("lumber"))
