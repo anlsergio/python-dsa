@@ -119,3 +119,20 @@ print("Expects False:", item_in_common_naive(l1, l3))
 print("\nFind Equal Item Optimal:")
 print("Expects True:", item_in_common(l1, l2))
 print("Expects False:", item_in_common(l1, l3))
+
+###############################
+# Find Duplicates Algorithm
+###############################
+
+def find_duplicates(ll):
+    duplicates = []
+    aux_dict = {}
+    for l in ll:
+        if l in aux_dict:
+            duplicates.append(l)
+        aux_dict[l] = "seen"
+    return duplicates
+
+print("\nFind duplicates:")
+print(find_duplicates([1,2,3,4]))
+print(find_duplicates([1,2,3,4,2,3,0]))
