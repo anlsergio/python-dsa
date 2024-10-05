@@ -77,3 +77,45 @@ print(my_hash_table.get_item_value("lumber"))
 
 print("\n Get Keys:")
 print(my_hash_table.keys())
+
+###############################
+# Find Item in common Algorithm
+###############################
+
+# this is the naive approach, because it's
+# not as efficient as it could be.
+# Given it utilizes nested loops, it's time complexity
+# is O(n^2)
+def item_in_common_naive(list1, list2):
+    for item1 in list1:
+        for item2 in list2:
+            if item1 == item2:
+                return True
+    return False
+
+# this is a more efficient way of solving the problem
+# which relies on looping through both lists
+# subsequently, which is O(2n), considering we always drop
+# the constant, the time complexity becomes simply O(n).
+def item_in_common(list1, list2):
+    # we use a dictionary which is a built-in
+    # form of hash table in Python to access values directly.
+    my_dict = {}
+    for item1 in list1:
+        my_dict[item1] = True
+    for item2 in list2:
+        if item2 in my_dict:
+            return True
+    return False
+
+
+l1 = [1,2,3]
+l2 = [4,5,2]
+l3 = [4,5,6]
+print("\nFind Equal Item naive:")
+print("Expects True:", item_in_common_naive(l1, l2))
+print("Expects False:", item_in_common_naive(l1, l3))
+
+print("\nFind Equal Item Optimal:")
+print("Expects True:", item_in_common(l1, l2))
+print("Expects False:", item_in_common(l1, l3))
