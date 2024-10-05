@@ -136,3 +136,22 @@ def find_duplicates(ll):
 print("\nFind duplicates:")
 print(find_duplicates([1,2,3,4]))
 print(find_duplicates([1,2,3,4,2,3,0]))
+
+###############################
+# First Non-Repeating Algorithm
+###############################
+
+def first_non_repeating_char(word):
+    aux_dict = {}
+    for w in word:
+        aux_dict[w] = aux_dict.get(w, 0) + 1
+
+    for w in word:
+        if aux_dict[w] == 1:
+            return w
+    return None
+
+print("\nFirst non repeating char:")
+print("leetcode:", first_non_repeating_char("leetcode"))
+print("hello:", first_non_repeating_char("hello"))
+print("aabbcc:", first_non_repeating_char("aabbcc"))
