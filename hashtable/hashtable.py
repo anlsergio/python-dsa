@@ -164,51 +164,18 @@ print("aabbcc:", first_non_repeating_char("aabbcc"))
 ###############################
 
 def group_anagrams(words):
+    # The function loops through each string in the input array
+    # and sorts the characters in each string to get its canonical form.
+    # In the context of this code, "canonical" means the standardized or
+    # normalized form of a string that can be used to compare it to other
+    # strings to see if they are anagrams. The canonical form is used as the key in the hash table.
     aux_dict = {}
     for word in words:
-        # word_added informs the outer loop if the current word
-        # was added to any existing sub-list.
-        word_added = False
-        for sub_list_key in aux_dict:
-            # In case there is at least 1 sub-list available,
-            # start comparing the length of the current string with
-            # the length of the 1st string in each sub-list
-            if len(word) == len(sub_list_key):
-                # If there's a match, start checking if all characters in the
-                # current string are present in the first item of the sub-list
-                all_chars_match = True
-                for w in word:
-                    # if at least 1 character fails the validation
-                    # flag all_chars_match accordingly.
-                    if w not in sub_list_key:
-                        all_chars_match = False
-                        break
-                # If all chars match, proceed to add the current string to the same sub-list
-                # of the item being compared
-                if all_chars_match:
-                    aux_dict[sub_list_key].append(word)
-                    word_added = True
-                    # bug is here: after appending it still adds the word
-                    # as key in the outer loop.
-            else:
-                continue
-        # If the loop reaches the end of the hash table without the current
-        # string finding a perfect match, create a sub-list of its own.
-        # The key of the hash-table is the base anagram word.
-        if not word_added:
-            aux_dict[word] = []
-
-    anagrams = []
-
-    # extract all anagrams subgroups into
-    # a list's sub-list to be returned.
-    for key in aux_dict:
-        sub_list = list([key])
-        for anagram in aux_dict[key]:
-            sub_list.append(anagram)
-        anagrams.append(sub_list)
-
-    return anagrams
+        canonical = ''.join(sorted(word))
+        if not canonical in aux_dict:
+            aux_dict[canonical] = []
+        aux_dict[canonical].append(word)
+    return list(aux_dict.values())
 
 print("1st set:")
 print( group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"]) )
