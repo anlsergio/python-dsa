@@ -185,3 +185,31 @@ print( group_anagrams(["abc", "cba", "bac", "foo", "bar"]) )
 
 print("\n3rd set:")
 print( group_anagrams(["listen", "silent", "triangle", "integral", "garden", "ranged"]) )
+
+###############################
+# Two Sum Algorithm
+###############################
+
+def two_sum(numbers, target):
+    aux_dict = {}
+    for i, num in enumerate(numbers):
+        current = num
+        # For each element, calculate its difference by subtracting the
+        # current number from the target. This is the number we need to
+        # find in our dictionary to know that the current number and its "diff" add up to the target.
+        diff = target - current
+        if diff in aux_dict:
+            return [aux_dict[diff], i]
+        aux_dict[current] = i
+    return []
+
+print("\nTwo sum:")
+
+print("want [1, 4]", two_sum([5, 1, 7, 2, 9, 3], 10))
+print("want [1, 3]",two_sum([4, 2, 11, 7, 6, 3], 9))
+print("want [0, 3]",two_sum([10, 15, 5, 2, 8, 1, 7], 12))
+print("want [1, 3]",two_sum([1, 3, 5, 7, 9], 10))
+print ("want []",two_sum([1, 2, 3, 4, 5], 10) )
+print ("want [2, 3]",two_sum([1, 2, 3, 4, 5], 7) )
+print ("want [0, 1]",two_sum([1, 2, 3, 4, 5], 3) )
+print ("want []",two_sum([], 0) )
