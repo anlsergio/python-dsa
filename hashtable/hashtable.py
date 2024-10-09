@@ -1,6 +1,3 @@
-from reportlab.lib.pagesizes import letter
-
-
 class HashTable:
     # Initialize the hash table with a default size of 7 (a prime number).
     # Prime numbers help to evenly distribute keys across the table,
@@ -213,3 +210,49 @@ print ("want []",two_sum([1, 2, 3, 4, 5], 10) )
 print ("want [2, 3]",two_sum([1, 2, 3, 4, 5], 7) )
 print ("want [0, 1]",two_sum([1, 2, 3, 4, 5], 3) )
 print ("want []",two_sum([], 0) )
+
+###############################
+# Sub-Array Sum Algorithm
+###############################
+
+def subarray_sum(nums, target):
+    # sum_index stores the sum of all items up to the
+    # corresponding index.
+    sum_index = {0: -1}
+    current_sum = 0
+
+    for i, num in enumerate(nums):
+        current_sum += num
+        # diff marks the leftover difference between the
+        # current sum and the target.
+        diff = current_sum - target
+        # if there's a valid corresponding key to the current difference
+        # that means we should point the starting cursor to the corresponding
+        # index right next to it, in order to discard the difference and get
+        # a perfect sum inside the start and end indexes.
+        if diff in sum_index:
+            starting_index = sum_index[diff] + 1
+            return [starting_index, i]
+        # continue populating the hash table with the current sum and
+        # the corresponding index where it happens.
+        sum_index[current_sum] = i
+
+    return []
+
+print("\nSub array sum:")
+
+nums = [1, 2, 3, 4, 5]
+target = 9
+print ( subarray_sum(nums, target) )
+
+nums = [-1, 2, 3, -4, 5]
+target = 0
+print ( subarray_sum(nums, target) )
+
+nums = [2, 3, 4, 5, 6]
+target = 3
+print ( subarray_sum(nums, target) )
+
+nums = []
+target = 0
+print ( subarray_sum(nums, target) )
