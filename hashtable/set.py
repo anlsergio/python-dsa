@@ -35,3 +35,27 @@ print(has_unique_chars('hello')) # should return False
 print(has_unique_chars('')) # should return True
 print(has_unique_chars('0123456789')) # should return True
 print(has_unique_chars('abacadaeaf')) # should return False
+
+###############################
+# Find Pairs Algorithm
+###############################
+
+def find_pairs(arr1, arr2, target):
+    set1 = set(arr1)
+    result = []
+
+    for n in arr2:
+        diff = target - n
+        if diff in set1:
+            result.append((diff, n))
+
+    return result
+
+print("\nFind pairs:")
+
+arr1 = [1, 2, 3, 4, 5]
+arr2 = [2, 4, 6, 8, 10]
+target = 7
+
+pairs = find_pairs(arr1, arr2, target)
+print (pairs)
