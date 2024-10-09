@@ -19,3 +19,19 @@ print("\nDe-dup:")
 my_list = [1, 2, 3, 4, 1, 2, 5, 6, 7, 3, 4, 8, 9, 5]
 new_list = remove_duplicates(my_list)
 print(new_list)
+
+###############################
+# Has Unique Chars Algorithm
+###############################
+
+def has_unique_chars(chars):
+    aux_set = set(chars)
+    return len(chars) == len(aux_set)
+
+print("\nHas unique chars:")
+
+print(has_unique_chars('abcdefg')) # should return True
+print(has_unique_chars('hello')) # should return False
+print(has_unique_chars('')) # should return True
+print(has_unique_chars('0123456789')) # should return True
+print(has_unique_chars('abacadaeaf')) # should return False
