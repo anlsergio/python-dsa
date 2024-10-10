@@ -59,3 +59,34 @@ target = 7
 
 pairs = find_pairs(arr1, arr2, target)
 print (pairs)
+
+#########################################
+# Longest consecutive sequence Algorithm
+#########################################
+
+def longest_consecutive_sequence(nums):
+    if not nums:
+        return 0
+    max_count = 0
+    nums_set = set(nums)
+
+    for num in nums_set:
+        # detects the first num of the current sequence
+        # in a sequence of [1, 2, 3, 11, 12, 13, 14], for example
+        # in case num is 11, num-1 is 10, which breaks the sequence,
+        # and therefore, 11 is a new sequence.
+        if num-1 not in nums_set:
+            counter = 1
+            # add to the counter until the num has sequence in the set.
+            while num+1 in nums_set:
+                counter +=1
+                num += 1
+            max_count = max(max_count, counter)
+
+    return max_count
+
+
+print("\nLongest consecutive sequence:")
+
+print( longest_consecutive_sequence([100, 4, 200, 1, 3, 2]) )
+print( longest_consecutive_sequence([100, 4, 200, 1, 3, 2, 10, 11, 12, 13, 14, 15]) )
