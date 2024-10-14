@@ -102,10 +102,13 @@ def find_kth_smallest(nums, k):
     nums_heap = MaxHeap()
     for num in nums:
         nums_heap.insert(num)
-
-    for i in range(len(nums_heap.heap) - k):
-        nums_heap.remove()
-
+        # keep removing all values that bubble up above the
+        # kth element, which will cause the kth smallest value to
+        # be at the root of the heap naturally when all nums were eventually processed in the heap,
+        # considering that for every insert, the values are organized so that the root contains the
+        # greatest number, which in this case, will be the kth smallest value.
+        if len(nums_heap.heap) > k:
+            nums_heap.remove()
     return nums_heap.heap[0]
 
 
