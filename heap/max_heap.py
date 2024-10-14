@@ -92,3 +92,24 @@ print(my_heap.heap)
 
 my_heap.remove()
 print(my_heap.heap)
+
+
+##################################
+# Find Kth Smallest Algorithm
+##################################
+
+def find_kth_smallest(nums, k):
+    nums_heap = MaxHeap()
+    for num in nums:
+        nums_heap.insert(num)
+
+    for i in range(len(nums_heap.heap) - k):
+        nums_heap.remove()
+
+    return nums_heap.heap[0]
+
+
+print("\nFind kth smallest:")
+
+# want 3
+print(find_kth_smallest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4))
