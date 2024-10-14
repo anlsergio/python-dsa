@@ -116,3 +116,35 @@ print("\nFind kth smallest:")
 
 # want 3
 print(find_kth_smallest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4))
+
+
+######################################################################################################
+# Max Stream Algorithm
+#
+# Write a function named stream_max that takes as its input a list of integers (nums).
+# The function should return a list of the same length, where each element in the output
+# list is the maximum number seen so far in the input list.
+######################################################################################################
+
+def stream_max(nums):
+    max_heap = MaxHeap()
+    # This list will represent the maximum number encountered so far
+    # at each position in the input list.
+    max_seen_nums = []
+
+    for num in nums:
+        max_heap.insert(num)
+        # the heap root always brings the greatest value amongst the
+        # values already introduced, which in this case is limited to
+        # the current num in the index of "i".
+        max_seen_nums.append(max_heap.heap[0])
+
+    return max_seen_nums
+
+
+print("\nStream max:")
+# want: [1, 3, 3, 5, 5]
+print(stream_max([1, 3, 2, 5, 4]))
+
+# want: [7, 7, 7, 7, 7]
+print(stream_max([7, 2, 4, 6, 1]))
