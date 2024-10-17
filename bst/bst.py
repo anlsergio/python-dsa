@@ -176,6 +176,20 @@ class BinarySearchTree:
         root_node.right = self.__sorted_list_to_bst(nums[mid_index + 1:])
         return root_node
 
+    def sorted_list_to_bst_alt(self, nums):
+        self.root = self.__sorted_list_to_bst_alt(nums, 0, len(nums) - 1)
+
+    def __sorted_list_to_bst_alt(self, nums, left, right):
+        # if left is greater than the right index, this means that
+        # the current segment is empty and cannot be further processed.
+        if left > right:
+            return None
+        mid_index = (left + right) // 2
+        root_node = Node(nums[mid_index])
+        root_node.left = self.__sorted_list_to_bst_alt(nums, left, mid_index - 1)
+        root_node.right = self.__sorted_list_to_bst_alt(nums, mid_index + 1, right)
+        return root_node
+
 
 my_tree = BinarySearchTree()
 my_tree.insert(2)
