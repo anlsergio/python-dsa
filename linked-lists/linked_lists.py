@@ -3,6 +3,7 @@ class Node:
         self.value = value
         self.next = None
 
+
 class LinkedList:
     def __init__(self, value):
         new_node = Node(value)
@@ -18,7 +19,7 @@ class LinkedList:
         limit = 0
         while temp and limit < 15:
             limit += 1
-            print("value: "+ str(temp.value) + " next: "+ str(temp.next))
+            print("value: " + str(temp.value) + " next: " + str(temp.next))
             temp = temp.next
 
     def prepend(self, value):
@@ -105,7 +106,7 @@ class LinkedList:
         if index == self.length:
             return self.append(value)
 
-        previous_node = self.get(index-1)
+        previous_node = self.get(index - 1)
         new_node = Node(value)
         new_node.next = previous_node.next
         previous_node.next = new_node
@@ -117,10 +118,10 @@ class LinkedList:
             return None
         if index == 0:
             return self.pop_first()
-        if index == self.length-1:
+        if index == self.length - 1:
             return self.pop()
 
-        previous_node = self.get(index-1)
+        previous_node = self.get(index - 1)
         current_node = previous_node.next
         previous_node.next = current_node.next
         current_node.next = None
@@ -319,6 +320,45 @@ class LinkedList:
 
         self.head = dummy_node.next
 
+    def merge(self, other_list):
+        # dummy will hold the reference to the start of the
+        # new list.
+        dummy = Node(0)
+        # current_merged represents the cursor of the combined list
+        current_merged = dummy
+        # current_self is the cursor of the original list
+        current_self = self.head
+        # current_other is the cursor of the other list
+        current_other = other_list.head
+
+        while current_self and current_other:
+            # link the smallest value node to the temp linked list
+            if current_self.value < current_other.value:
+                current_merged.next = current_self
+                # move the cursor of the self list
+                current_self = current_self.next
+            else:
+                current_merged.next = current_other
+                # move the cursor of the another list
+                current_other = current_other.next
+            # move the cursor of the temp list
+            current_merged = current_merged.next
+
+        # considering it's a linked list and that only 1 list contains
+        # leftovers at this point, it's just a matter of linking the end
+        # of the temp list to the start of the list that has leftovers.
+        if current_self:
+            current_merged.next = current_self
+        else:
+            current_merged.next = current_other
+            # it's only necessary to adjust the tail if the new list
+            # will end with nodes from another list. Otherwise, the reference
+            # remains as originally is.
+            self.tail = other_list.tail
+
+        self.head = dummy.next
+        self.length += other_list.length
+
 
 def find_kth_from_end(ll: LinkedList, k: int):
     # This function uses the two-pointer technique to efficiently find the kth node from the end of a linked list.
@@ -416,7 +456,7 @@ middle_linked_list.append(4)
 middle_linked_list.append(5)
 middle_linked_list.append(6)
 
-print( middle_linked_list.find_middle_node().value )
+print(middle_linked_list.find_middle_node().value)
 
 ##################################
 # Has Loop Algorithm
@@ -428,14 +468,14 @@ loop_detection_list1.append(2)
 loop_detection_list1.append(3)
 loop_detection_list1.append(4)
 loop_detection_list1.tail.next = loop_detection_list1.head
-print(loop_detection_list1.has_loop()) # Returns True
+print(loop_detection_list1.has_loop())  # Returns True
 
 print("\nHas loop false:")
 loop_detection_list2 = LinkedList(1)
 loop_detection_list2.append(2)
 loop_detection_list2.append(3)
 loop_detection_list2.append(4)
-print(loop_detection_list2.has_loop()) # Returns False
+print(loop_detection_list2.has_loop())  # Returns False
 
 ##################################
 # Find Kth node from end Algorithm
@@ -458,6 +498,7 @@ print(result.value)  # Output: 4
 ##################################
 
 print("\nPartition List:")
+
 
 # Function to convert linked list to Python list
 def linkedlist_to_list(head):
@@ -633,6 +674,7 @@ test_partition_list()
 
 print("\nDe-dup:")
 
+
 def test_remove_duplicates(linked_list, expected_values):
     print("Before: ", end="")
     linked_list.print()
@@ -652,6 +694,7 @@ def test_remove_duplicates(linked_list, expected_values):
         print("Test PASS\n")
     else:
         print("Test FAIL\n")
+
 
 # Test 1: List with no duplicates
 ll = LinkedList(1)
@@ -700,7 +743,7 @@ test_remove_duplicates(ll, [1, 2, 3])
 # Test 7: Empty list
 ll = LinkedList(None)
 ll.head = None  # Directly setting the head to None
-ll.length = 0   # Adjusting the length to reflect an empty list
+ll.length = 0  # Adjusting the length to reflect an empty list
 test_remove_duplicates(ll, [])
 
 ##################################
@@ -746,7 +789,6 @@ print(linked_list.binary_to_decimal())  # Output: 1
 ##################################
 
 print("\nReverse between:")
-
 
 print("Reverse a sublist within the linked list:")
 linked_list = LinkedList(1)
@@ -802,3 +844,23 @@ if linked_list.has_loop():
     print("FAIL: list has loop")
     exit(1)
 empty_list.print()
+
+#########################################
+# Merge Two Sorted Linked Lists Algorithm
+#########################################
+
+print("\nMerge two sorted linked lists:")
+
+l1 = LinkedList(1)
+l1.append(3)
+l1.append(5)
+l1.append(7)
+
+l2 = LinkedList(2)
+l2.append(4)
+l2.append(6)
+l2.append(8)
+
+l1.merge(l2)
+
+l1.print()
