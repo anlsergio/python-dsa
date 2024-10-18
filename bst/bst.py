@@ -190,6 +190,24 @@ class BinarySearchTree:
         root_node.right = self.__sorted_list_to_bst_alt(nums, mid_index + 1, right)
         return root_node
 
+    def BFS(self):
+        current = self.root
+        # queue stores the nodes being traversed
+        queue = []
+        # results stores the corresponding values of the nodes seen.
+        results = []
+        # initialize the queue so that the while loop can start
+        queue.append(current)
+
+        while queue:
+            current = queue.pop(0)
+            results.append(current.value)
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+        return results
+
 
 my_tree = BinarySearchTree()
 my_tree.insert(2)
@@ -325,3 +343,20 @@ bst = BinarySearchTree()
 large_sorted_list = list(range(1, 16))  # A list from 1 to 15
 bst.sorted_list_to_bst(large_sorted_list)
 check_balanced_and_correct_traversal(bst, large_sorted_list)
+
+####################################
+# Breadth First Search
+####################################
+
+print("\nBFS:")
+
+my_tree = BinarySearchTree()
+my_tree.insert(47)
+my_tree.insert(21)
+my_tree.insert(76)
+my_tree.insert(18)
+my_tree.insert(27)
+my_tree.insert(52)
+my_tree.insert(82)
+
+print(my_tree.BFS())
