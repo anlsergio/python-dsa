@@ -219,7 +219,19 @@ class BinarySearchTree:
                 traverse(current.right)
 
         traverse(self.root)
+        return results
 
+    def dfs_post_order(self):
+        results = []
+
+        def traverse(current: Node):
+            if current.left:
+                traverse(current.left)
+            if current.right:
+                traverse(current.right)
+            results.append(current.value)
+
+        traverse(self.root)
         return results
 
 
@@ -381,3 +393,10 @@ print(my_tree.BFS())
 
 print("\nPre-order DFS:")
 print(my_tree.dfs_pre_order())
+
+####################################
+# Post-order Depth First Search (DFS)
+####################################
+
+print("\nPost-order DFS:")
+print(my_tree.dfs_post_order())
