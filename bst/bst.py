@@ -208,6 +208,20 @@ class BinarySearchTree:
                 queue.append(current.right)
         return results
 
+    def dfs_pre_order(self):
+        results = []
+
+        def traverse(current: Node):
+            results.append(current.value)
+            if current.left:
+                traverse(current.left)
+            if current.right:
+                traverse(current.right)
+
+        traverse(self.root)
+
+        return results
+
 
 my_tree = BinarySearchTree()
 my_tree.insert(2)
@@ -345,7 +359,7 @@ bst.sorted_list_to_bst(large_sorted_list)
 check_balanced_and_correct_traversal(bst, large_sorted_list)
 
 ####################################
-# Breadth First Search
+# Breadth First Search (BFS)
 ####################################
 
 print("\nBFS:")
@@ -360,3 +374,10 @@ my_tree.insert(52)
 my_tree.insert(82)
 
 print(my_tree.BFS())
+
+####################################
+# Pre-order Depth First Search (DFS)
+####################################
+
+print("\nPre-order DFS:")
+print(my_tree.dfs_pre_order())
