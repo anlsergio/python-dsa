@@ -247,6 +247,14 @@ class BinarySearchTree:
         traverse(self.root)
         return results
 
+    def is_valid_bst(self):
+        result = self.dfs_in_order()
+        for i in range(1, len(result)):
+            if result[i] < result[i - 1]:
+                return False
+
+        return True
+
 
 my_tree = BinarySearchTree()
 my_tree.insert(2)
@@ -420,3 +428,25 @@ print(my_tree.dfs_post_order())
 
 print("\nPost-order DFS:")
 print(my_tree.dfs_in_order())
+
+####################################
+# Is Valid BST algorithm
+####################################
+
+print("\nIs valid BST:")
+
+
+# this function represents how the is_valid_bst method operates in the BST,
+# since a proper implemented BST is always valid by design.
+def is_valid_bst(result: list):
+    # result = self.dfs_in_order()
+    for i in range(1, len(result)):
+        if result[i] < result[i - 1]:
+            return False
+
+    return True
+
+
+print("want True: ", is_valid_bst([1, 2, 3]))
+print("want True: ", is_valid_bst([1]))
+print("want False: ", is_valid_bst([1, 3, 2]))
