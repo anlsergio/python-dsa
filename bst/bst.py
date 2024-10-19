@@ -255,6 +255,57 @@ class BinarySearchTree:
 
         return True
 
+    def kth_smallest_recursive(self, kth):
+        if not self.root:
+            return None
+
+        results = []
+
+        def traverse(current: Node):
+            if len(results) > kth:
+                return
+            if current.left:
+                traverse(current.left)
+            results.append(current)
+            if current.right:
+                traverse(current.right)
+
+        traverse(self.root)
+
+        if kth > len(results):
+            return None
+
+        result = None
+        for i in range(kth):
+            result = results.pop(0).value
+        return result
+
+    def kth_smallest(self, k):
+        stack = []
+        temp = self.root
+
+        while stack or temp:
+            while temp:
+                stack.append(temp)
+                temp = temp.left
+
+            temp = stack.pop()
+            k -= 1
+
+            if k == 0:
+                return temp.value
+
+            # if the kth node isn't found yet
+            # it continues popping off items from the stack
+            # until the kth node is found, or start traversing to the right.
+            # whatever happens first.
+            # Because if there's a valid node to the right, this means the
+            # current left branch wasn't enough to find the kth node, so we need
+            # to start traversing to the right when necessary.
+            temp = temp.right
+
+        return None
+
 
 my_tree = BinarySearchTree()
 my_tree.insert(2)
@@ -450,3 +501,43 @@ def is_valid_bst(result: list):
 print("want True: ", is_valid_bst([1, 2, 3]))
 print("want True: ", is_valid_bst([1]))
 print("want False: ", is_valid_bst([1, 3, 2]))
+
+####################################
+# Find Kth Smallest algorithm (Non-recursive approach)
+####################################
+
+print("\nFind Kth Smallest (Stack):")
+
+bst = BinarySearchTree()
+
+bst.insert(5)
+bst.insert(3)
+bst.insert(7)
+bst.insert(2)
+bst.insert(4)
+bst.insert(6)
+bst.insert(8)
+
+print(bst.kth_smallest(1))  # Expected output: 2
+print(bst.kth_smallest(3))  # Expected output: 4
+print(bst.kth_smallest(6))  # Expected output: 7
+
+####################################
+# Find Kth Smallest algorithm (Recursive approach)
+####################################
+
+print("\nFind Kth Smallest (Recursive):")
+
+bst = BinarySearchTree()
+
+bst.insert(5)
+bst.insert(3)
+bst.insert(7)
+bst.insert(2)
+bst.insert(4)
+bst.insert(6)
+bst.insert(8)
+
+print(bst.kth_smallest_recursive(1))  # Expected output: 2
+print(bst.kth_smallest_recursive(3))  # Expected output: 4
+print(bst.kth_smallest_recursive(6))  # Expected output: 7
