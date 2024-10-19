@@ -359,6 +359,37 @@ class LinkedList:
         self.head = dummy.next
         self.length += other_list.length
 
+    def bubble_sort(self):
+        # if the list has only 1 element or less, it's sorted by design.
+        if self.length < 2:
+            return
+        # Initialize 'sorted_cursor' to None. This cursor will
+        # indicate the boundary between the sorted part of
+        # the list and the part that still needs sorting.
+        # Until it's defined as anything but None, it's still useful
+        # to mark the end of the list, since the tail node will point to None as well.
+        sorted_cursor = None
+
+        # The outer loop will continue
+        # running until the sorted section of the list
+        # includes the second node, meaning the whole
+        # list is sorted.
+        while self.head.next != sorted_cursor:
+            current = self.head
+            # Begin the inner loop. It runs until 'current'
+            # reaches the 'sorted_until' node. This loop is
+            # where the actual comparison and sorting happen.
+            while current.next != sorted_cursor:
+                next_node = current.next
+                if current.value > next_node.value:
+                    current.value, next_node.value = next_node.value, current.value
+                current = current.next
+            # Update 'sorted_cursor' after each full pass of
+            # the inner loop. This moves the boundary of the
+            # sorted section one node forward, shrinking the
+            # unsorted section accordingly.
+            sorted_cursor = current
+
 
 def find_kth_from_end(ll: LinkedList, k: int):
     # This function uses the two-pointer technique to efficiently find the kth node from the end of a linked list.
@@ -864,3 +895,24 @@ l2.append(8)
 l1.merge(l2)
 
 l1.print()
+
+##########################################
+# Bubble Sort Linked List Algorithm
+##########################################
+
+print("\nBubble sort:")
+
+my_linked_list = LinkedList(4)
+my_linked_list.append(2)
+my_linked_list.append(6)
+my_linked_list.append(5)
+my_linked_list.append(1)
+my_linked_list.append(3)
+
+print("Linked List Before Sort:")
+my_linked_list.print()
+
+my_linked_list.bubble_sort()
+
+print("\nSorted Linked List:")
+my_linked_list.print()
