@@ -390,6 +390,27 @@ class LinkedList:
             # unsorted section accordingly.
             sorted_cursor = current
 
+    def selection_sort(self):
+        if self.length < 2:
+            return
+        current = self.head
+        # run the loop up traversing the list, excluding the last node
+        # because there's no reason to go up to the last node considering inner_current
+        # will be compared to min_node, which goes up to the end of the list.
+        # And the same is for the other way around. "inner_current" starts at the current's next node, because
+        # it will be compared to current anyway.
+        while current.next:
+            min_node = current
+            inner_current = current.next
+            while inner_current:
+                if inner_current.value < min_node.value:
+                    min_node = inner_current
+                inner_current = inner_current.next
+            if min_node != current:
+                current.value, min_node.value = min_node.value, current.value
+
+            current = current.next
+
 
 def find_kth_from_end(ll: LinkedList, k: int):
     # This function uses the two-pointer technique to efficiently find the kth node from the end of a linked list.
@@ -913,6 +934,27 @@ print("Linked List Before Sort:")
 my_linked_list.print()
 
 my_linked_list.bubble_sort()
+
+print("\nSorted Linked List:")
+my_linked_list.print()
+
+##########################################
+# Selection Sort Linked List Algorithm
+##########################################
+
+print("\nSelection sort:")
+
+my_linked_list = LinkedList(4)
+my_linked_list.append(2)
+my_linked_list.append(6)
+my_linked_list.append(5)
+my_linked_list.append(1)
+my_linked_list.append(3)
+
+print("Linked List Before Sort:")
+my_linked_list.print()
+
+my_linked_list.selection_sort()
 
 print("\nSorted Linked List:")
 my_linked_list.print()
