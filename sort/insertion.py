@@ -10,14 +10,14 @@ def insertion_sort(ll):
         # store the current element being sorted in a temporary variable
         temp = ll[i]
         # iterate over the already sorted part of the list
-        j = i - 1
+        previous_index = i - 1
         # while the current element is less than the previous element and the index is still in bounds
-        while temp < ll[j] and j > -1:
+        while temp < ll[previous_index] and previous_index > -1:
             # swap the current element with the previous element
-            ll[j + 1] = ll[j]
-            ll[j] = temp
-            # decrement the index j
-            j -= 1
+            ll[previous_index + 1] = ll[previous_index]
+            ll[previous_index] = temp
+            # decrement the index previous_index
+            previous_index -= 1
     # return the sorted list
     return ll
 

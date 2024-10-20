@@ -411,6 +411,89 @@ class LinkedList:
 
             current = current.next
 
+    def insertion_sort(self):
+        if self.length < 2:
+            return
+
+        sorted_list_head = self.head
+        unsorted_list_head = self.head.next
+        sorted_list_head.next = None
+        select = unsorted_list_head
+        search_pointer = sorted_list_head
+
+        while select:
+            # use next_select to keep the reference to the next node
+            # in the unsorted list that still need to be traversed.
+            next_select = select.next
+            search_pointer = sorted_list_head
+            while True:
+                # if the selected node's value is smaller than
+                # the node in the sorted list's cursor
+                # move it to the preceding position by adjusting the links.
+                # Otherwise, keep traversing the sorted list.
+                if select.value <= search_pointer.value:
+                    select.next = search_pointer
+                    sorted_list_head = select
+                    break
+                elif not search_pointer.next:
+                    # if the sorted list has been traversed, and yet, the selected node
+                    # is greater than the last node in the sorted list, then the selected
+                    # node fits the end of the sorted list.
+                    search_pointer.next = select
+
+                    # the currently selected node's next link must be disconnected
+                    # to signalize the end of the sorted list, as it's now in the tail position.
+                    select.next = None
+                    break
+                search_pointer = search_pointer.next
+            select = next_select
+
+        self.head = sorted_list_head
+        self.tail = search_pointer.next
+
+    def insertion_sort_alt(self):
+        # Check if the length of the list is less than 2
+        if self.length < 2:
+            return
+
+        # Set the pointer to the first element of the sorted list
+        sorted_list_head = self.head
+
+        # Set the pointer to the second element of the list
+        unsorted_list_head = self.head.next
+
+        # Remove the first element from the sorted list
+        sorted_list_head.next = None
+
+        # Iterate through the unsorted list
+        while unsorted_list_head is not None:
+            # Save the current element
+            current = unsorted_list_head
+
+            # Move the pointer to the next element in the unsorted list
+            unsorted_list_head = unsorted_list_head.next
+
+            # Insert the current element into the sorted list
+            if current.value < sorted_list_head.value:
+                # If the current element is smaller than the first element
+                # in the sorted list, it becomes the new first element
+                current.next = sorted_list_head
+                sorted_list_head = current
+            else:
+                # Otherwise, search for the appropriate position to insert the current element
+                search_pointer = sorted_list_head
+                while search_pointer.next is not None and current.value > search_pointer.next.value:
+                    search_pointer = search_pointer.next
+                current.next = search_pointer.next
+                search_pointer.next = current
+
+        # Update the head and tail of the list
+        self.head = sorted_list_head
+        temp = self.head
+        while temp.next is not None:
+            temp = temp.next
+        self.tail = temp
+
 
 def find_kth_from_end(ll: LinkedList, k: int):
     # This function uses the two-pointer technique to efficiently find the kth node from the end of a linked list.
@@ -958,3 +1041,25 @@ my_linked_list.selection_sort()
 
 print("\nSorted Linked List:")
 my_linked_list.print()
+
+##########################################
+# Insertion Sort Linked List Algorithm
+##########################################
+
+print("\nSelection sort:")
+
+my_linked_list = LinkedList(5)
+my_linked_list.append(4)
+my_linked_list.append(4)
+my_linked_list.append(3)
+my_linked_list.append(3)
+my_linked_list.append(6)
+print("Linked List Before Sort:")
+my_linked_list.print()
+
+my_linked_list.insertion_sort()
+
+print("\nSorted Linked List:")
+my_linked_list.print()
+print("head: ", my_linked_list.head.value)
+print("tail: ", my_linked_list.tail.value)
