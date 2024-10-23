@@ -32,3 +32,22 @@ print("BEFORE:", nums5)
 new_length5 = remove_element(nums5, val5)
 print("AFTER:", nums5, "\nNew length:", new_length5)
 print("-----------------------------------")
+
+
+# Write a Python function that takes a list of integers as input and returns
+# a tuple containing the maximum and minimum values in the list.
+
+def find_max_min(nums):
+    if not nums:
+        return ()
+
+    max = min = nums[0]
+    for n in nums:
+        if n > max:
+            max = n
+        if n < min:
+            min = n
+    return (max, min)
+
+
+print(find_max_min([5, 3, 8, 1, 6, 9]))
