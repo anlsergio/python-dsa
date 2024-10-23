@@ -133,3 +133,47 @@ result4 = remove_duplicates(test4)
 print(f"Test 4 After: {test4[:result4]}")
 print(f"New Length: {result4}")
 print("------")
+
+
+# You are given a list of integers representing stock prices for a certain company over
+# a period of time, where each element in the list corresponds to the stock price for a specific day.
+#
+# You are allowed to buy one share of the stock on one day and sell it on a later day.
+#
+# Your task is to write a function called max_profit that takes the list of
+# stock prices as input and returns the maximum profit you can make by buying
+# and selling at the right time.
+#
+# Note that you must buy the stock before selling it, and you are allowed to make only
+# one transaction (buy once and sell once).
+def max_profit(prices):
+    min_price = float('inf')
+    profit = 0
+
+    for p in prices:
+        min_price = min(min_price, p)
+        balance = p - min_price
+        profit = max(profit, balance)
+    return profit
+
+
+prices = [7, 1, 5, 3, 6, 4]
+profit = max_profit(prices)
+print("Test with mixed prices:")
+print("Prices:", prices)
+print("Maximum profit:", profit)
+print("-----------------------------")
+
+prices = [7, 6, 4, 3, 1]
+profit = max_profit(prices)
+print("Test with descending prices:")
+print("Prices:", prices)
+print("Maximum profit:", profit)
+print("-----------------------------")
+
+prices = [1, 2, 3, 4, 5, 6]
+profit = max_profit(prices)
+print("Test with ascending prices:")
+print("Prices:", prices)
+print("Maximum profit:", profit)
+print("-----------------------------")
